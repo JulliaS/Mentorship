@@ -18,13 +18,8 @@ namespace EF.CodeFirstApproach.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var addresses = await _pharmacyContext.PharmacyAddresses.ToListAsync();
+            var addresses = await _pharmacyContext.PharmacyAddresses.Include(x=>x.PharmacyNetwork).ToListAsync();
 
-            addresses.ForEach(adr =>
-            {
-                var pharmacyNetwork = _pharmacyContext.PharmacyNetworks.Where(n => n.Id == adr.PharmacyNetworkId).FirstOrDefault().Name;
-                adr.PharmacyNetwork.Name = pharmacyNetwork;
-            });
             return View(addresses);
         }
     }

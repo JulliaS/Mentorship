@@ -17,16 +17,8 @@ namespace EF.CodeFirstApproach.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            var prices = await _pharmacyContext.MedicinePrices.ToListAsync();
-
-            prices.ForEach(pr =>
-            {
-                var address = _pharmacyContext.PharmacyAddresses.Find(pr.PharmacyAddressId).Address;
-                pr.PharmacyAddress.Address = address;
-                var medicineName = _pharmacyContext.Medicines.Find(pr.MedicineId).Name;
-                pr.Medicine.Name = medicineName;
-            });
-
+            var prices = await _pharmacyContext.MedicinePrices.Include(x=>x.PharmacyAddress).Include(x=>x.Medicine).ToListAsync();
+            
             return View(prices);
         }
     }

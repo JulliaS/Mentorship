@@ -24,7 +24,7 @@ namespace EF.CodeFirstApproach
                 try
                 {
                     var context = services.GetRequiredService<PharmacyContext>();
-                   // DbInitializer.Initialize(context);
+                    DbInitializer.Initialize(context);
                 }
                 catch (Exception ex)
                 {
